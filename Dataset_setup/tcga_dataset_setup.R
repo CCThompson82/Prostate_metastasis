@@ -5,5 +5,10 @@ library(TCGA2STAT)
 PRAD <- getTCGA(disease = "PRAD", 
                 data.type = "RNASeq2",
                 p = getOption("mc.cores", 2L), 
-                clinical = F)
-
+                clinical = T)
+data.frame(t(PRAD[[1]])) -> gc #Gene counts 
+data.frame(PRAD[[2]]) -> clinical
+#write files to be picked up in python
+library(feather)
+write_feather(gc, "Gene_counts.feather")
+write_feather(clinical, "Clinical_data.feather")
