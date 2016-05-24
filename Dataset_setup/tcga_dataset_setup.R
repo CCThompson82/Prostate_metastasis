@@ -10,5 +10,6 @@ data.frame(t(PRAD[[1]])) -> gc #Gene counts
 data.frame(PRAD[[2]]) -> clinical
 #write files to be picked up in python
 library(feather)
-write_feather(gc, "Gene_counts.feather")
+write_feather(gc, "Gene_counts.feather") 
 write_feather(clinical, "Clinical_data.feather")
+##Need to fix so that row names are not dumped during feather save.
