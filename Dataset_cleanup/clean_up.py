@@ -26,7 +26,6 @@ else :
 """The Clinical Data set will be cleaned such that only information available
 at the onset of diagnosis is available.  This decision was made in order to
 mimic the state of knowledge at the beginning of the patient's diagnosis."""
-print(clinical.columns)
 clinical.set_index(['clinical_index'], inplace=True) #set index to the TCGA ID
 
 y = clinical['pathologyNstage'] #pull out the label (metastasis or no metastasis) as y
@@ -35,7 +34,7 @@ clinical.drop(['pathologyNstage'], axis = 1, inplace=True) #drop label from feat
 def useless_vars(dataset) :
     df = pd.DataFrame(dataset.describe())
     to_drop = df.columns[df.loc['unique'] <= 1]
-    print("The following features do not provide any information:", to_drop.values, "and were dropped from the dataset")
+    print("\n\n","The following features do not provide any information:","\n",to_drop.values,"\n")
     dataset.drop(to_drop, axis = 1, inplace = True)
     return(dataset)
 
@@ -55,11 +54,13 @@ def future_vars(dataset) :
     df.loc['radiationtherapy']['Known_at_diagnosis'] = 'no'
     df.loc['vitalstatus']['Known_at_diagnosis'] = 'no'
     df.loc['yearstobirth']['Known_at_diagnosis'] = 'yes'
-    #print(df) [DeBug]
-    dataset.drop(df[df['Known_at_diagnosis'] == 'no'].index, axis = 1, inplace = True)
-    print("Variables that are known at initial diagnosis:", dataset.columns)
+    keep = df[df['Known_at_diagnosis'] != 'no'].index
+    dropped = df[df['Known_at_diagnosis'] == 'no'].index
+    dataset.drop(dropped.values, axis = 1, inplace = True)
+    print("\n\n","Variables that are not known at initial diagnosis:","\n", dropped.values, "\n")
     return(dataset)
 
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
-print(clinical.shape)
+print(clinical.head())
+print("Dimensions of clinical dataframe:", clinical.shape)
