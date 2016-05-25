@@ -63,4 +63,5 @@ def future_vars(dataset) :
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
 print(clinical.head())
+print("")
 print("Dimensions of clinical dataframe:", clinical.shape)
