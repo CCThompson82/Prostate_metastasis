@@ -24,10 +24,10 @@ print("")
 print("Dimension of DataFrame:", gene_counts.shape)
 
 def transformation(dataset) :
-    read_count = dataset.sum(axis = 1)
-    print(len(read_count), read_count[0:5])
-    dataset.apply(lambda i : i / read_count, axis = 1)
-    #dataset.apply(lambda rsem : 1000000 * rsem / rowsums, axis = 1)
-    print(dataset.sum(axis=1))
+    read_count = dataset.sum(axis = 1) #get the total reads for each sample
+    for r in range(0,dataset.shape[0]) :
+        dataset.iloc[r] = 1000000 * dataset.iloc[r] / read_count.iloc[r] #transform each read abundance (rsem) by the sample reads / million
+    if sum(round(dataset.sum(axis = 1)) == 1e6) == 550 :  #the sum of each row in the transformed df should be 1000000.  if every row is transformed correctly, print statement
+        print("\nTransformation Successful!\n\nTranscript abundance estimates have been transformed to transcripts per million reads")
 
 transformation(gene_counts)
