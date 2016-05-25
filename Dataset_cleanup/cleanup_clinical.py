@@ -10,18 +10,12 @@ import pandas as pd
 
 #Import feather files that were downloaded and saved using TCGA2STAT package in R:
 clinical = feather.read_dataframe('Clinical_data.feather')
-gene_counts = feather.read_dataframe('Gene_counts.feather')
 
 #Check data import:
 if np.isfinite(clinical.shape[0]) :
     print("Clinical data set imported")
 else :
     print("Error in Clinical data set import")
-
-if np.isfinite(gene_counts.shape[0]) :
-    print("Gene Counts data set imported")
-else :
-    print("Error in Gene_counts import")
 
 """The Clinical Data set will be cleaned such that only information available
 at the onset of diagnosis is available.  This decision was made in order to
