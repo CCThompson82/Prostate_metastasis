@@ -52,10 +52,9 @@ def future_vars(dataset) :
     dropped = df[df['Known_at_diagnosis'] == 'no'].index
     dataset.drop(dropped.values, axis = 1, inplace = True)
     print("\n\n","Variables that are not known at initial diagnosis:","\n", dropped.values, "\n")
+    print("\nVariables that are known at the time of diagnosis:\n",keep.values)
     return(dataset)
 
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
-print(clinical.head())
-print("")
-print("Dimensions of clinical dataframe:", clinical.shape)
+print("\nDimensions of clinical dataframe:", clinical.shape)
