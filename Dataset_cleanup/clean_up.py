@@ -21,3 +21,9 @@ if np.isfinite(gene_counts.shape[0]) :
     print("Gene Counts data set imported")
 else :
     print("Error in Gene_counts import")
+
+"""The Clinical Data set will be cleaned such that only information available
+at the onset of diagnosis is available.  This decision was made in order to
+mimic the state of knowledge at the beginning of the patient's diagnosis."""
+print(clinical.columns)
+clinical.set_index(['clinical_index'], inplace=True) #set index to the TCGA ID
