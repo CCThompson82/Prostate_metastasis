@@ -31,3 +31,4 @@ def transformation(dataset) :
         print("\nTransformation Successful!\n\nTranscript abundance estimates have been transformed to transcripts per million reads")
 
 transformation(gene_counts)
+gene_counts.astype(float)

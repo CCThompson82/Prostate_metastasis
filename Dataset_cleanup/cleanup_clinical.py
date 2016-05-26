@@ -58,12 +58,11 @@ def future_vars(dataset) :
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
 
-#clinical.replace('None', 'NaN', inplace=True)
-
 clinical['dateofinitialpathologicdiagnosis'] = pd.to_numeric(clinical['dateofinitialpathologicdiagnosis'], errors='coerce') #must be a float as NA cannot be coerced into integer in pandas
 clinical['gleasonscore'] = clinical['gleasonscore'].astype(float)
 clinical['psavalue'] = clinical['psavalue'].astype(float)
 clinical['race'] = clinical['race'].astype(str)
+clinical['race'].replace('None', 'Not_provided', inplace = True) #Change the 'None' default to specific information (race was 'Not_provided')
 clinical['yearstobirth'] = pd.to_numeric(clinical['yearstobirth'], errors = 'coerce') #must be a float as NA cannot be coerced into integer in pandas
 
 print("\nDimensions of clinical dataframe:", clinical.shape)
