@@ -57,4 +57,8 @@ def future_vars(dataset) :
 
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
+
+clinical.replace(to_replace='None', value= 'NaN', inplace=True, axis=None)
+
+
 print("\nDimensions of clinical dataframe:", clinical.shape)
