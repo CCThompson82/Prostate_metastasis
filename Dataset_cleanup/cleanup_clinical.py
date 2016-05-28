@@ -38,7 +38,7 @@ def future_vars(dataset) :
     df.loc['daystolastfollowup']['Known_at_diagnosis'] = 'no'
     df.loc['daystodeath']['Known_at_diagnosis'] = 'no'
     df.loc['daystopsa']['Known_at_diagnosis'] = 'no'
-    df.loc['gleasonscore']['Known_at_diagnosis'] = 'maybe'
+    df.loc['gleasonscore']['Known_at_diagnosis'] = 'no'  #this is the point of the biopsy and would typically be known within 2 weeks.
     df.loc['histologicaltype']['Known_at_diagnosis'] = 'no'
     df.loc['numberoflymphnodes']['Known_at_diagnosis'] = 'no'
     df.loc['pathologyTstage']['Known_at_diagnosis'] = 'no'
@@ -59,7 +59,7 @@ clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
 
 clinical['dateofinitialpathologicdiagnosis'] = pd.to_numeric(clinical['dateofinitialpathologicdiagnosis'], errors='coerce') #must be a float as NA cannot be coerced into integer in pandas
-clinical['gleasonscore'] = clinical['gleasonscore'].astype(float)
+#clinical['gleasonscore'] = clinical['gleasonscore'].astype(float)
 clinical['psavalue'] = clinical['psavalue'].astype(float)
 clinical['race'] = clinical['race'].astype(str)
 clinical['race'].replace('None', 'Not_provided', inplace = True) #Change the 'None' default to specific information (race was 'Not_provided')
