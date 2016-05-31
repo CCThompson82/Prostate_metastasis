@@ -12,11 +12,14 @@ PRAD <- getTCGA(disease = "PRAD",
                 clinical = T)
 
 #wrangle into data_frame
-data.frame(t(PRAD[[1]]), stringsAsFactors = FALSE) -> gc #Gene counts 
-gc <- cbind("gc_index" = row.names(gc), gc)
-data.frame(PRAD[[2]], stringsAsFactors = FALSE) -> clinical
-clinical <- cbind("clinical_index" = row.names(clinical), clinical) #move row names to first column
+library(dplyr)
+gc <- SampleSplit((PRAD[[1]]))[[1]] %>% t() %>% data.frame(stringsAsFactors = FALSE) #Split gene count data into tumor [[1]] versus no tumor [[2]], transpose column and rows and create data frame
+gc <- cbind("gc_index" = row.names(gc), gc) #as row names get dropped in feather, create a temporary column with TCGA ID codes
 gc$gc_index <- sapply(gc$gc_index, substr, 0, 12) #shorten extended ID to the standard 12 characters observed in clininical data set
+
+
+clinical <- data.frame(PRAD[[2]], stringsAsFactors = FALSE)
+clinical <- cbind("clinical_index" = row.names(clinical), clinical) #move row names to first column
 
 #write files to be picked up in python
 write_feather(gc, "Gene_counts.feather") 
