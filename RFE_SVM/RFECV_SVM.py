@@ -23,7 +23,7 @@ estimator = SVC(C=.5,
                 random_state= 123)
 selector = RFECV(estimator,
                  step = 2,
-                 cv = 4,
+                 cv = 5,
                 scoring = f1_scorer)
 selector.fit(X_train, y_train)
 
