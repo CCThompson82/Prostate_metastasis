@@ -21,4 +21,5 @@ print(classification_report(y_train,
                             target_names = ['n0', 'n1']))
 print(X_train.columns[selector.support_])
 SVM_clf = selector.estimator_
+
 print(SVM_clf)
