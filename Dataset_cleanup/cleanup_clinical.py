@@ -55,11 +55,12 @@ def future_vars(dataset) :
     print("\nVariables that are known at the time of diagnosis:\n",keep.values)
     return(dataset)
 
+gleason = clinical['gleasonscore']
+
 clinical = useless_vars(clinical)
 clinical = future_vars(clinical)
 
 clinical['dateofinitialpathologicdiagnosis'] = pd.to_numeric(clinical['dateofinitialpathologicdiagnosis'], errors='coerce') #must be a float as NA cannot be coerced into integer in pandas
-#clinical['gleasonscore'] = clinical['gleasonscore'].astype(float)
 clinical['psavalue'] = clinical['psavalue'].astype(float)
 clinical['race'] = clinical['race'].astype(str)
 clinical['race'].replace('None', 'Not_provided', inplace = True) #Change the 'None' default to specific information (race was 'Not_provided')
