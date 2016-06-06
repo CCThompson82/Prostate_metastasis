@@ -10,7 +10,7 @@ base_est = DecisionTreeClassifier(criterion='gini',
                                   max_features=None,
                                   random_state=123,
                                   max_leaf_nodes=None,
-                                  class_weight={'n0':0.15, 'n1':0.85},
+                                  class_weight='balanced',
                                   presort=False)
 
 estimator = AdaBoostClassifier(base_estimator=base_est,

@@ -14,7 +14,7 @@ estimator = RandomForestClassifier(n_estimators=10,
                                    random_state=123,
                                    verbose=0,
                                    warm_start=False,
-                                   class_weight={'n0':0.05, 'n1':0.95})
+                                   class_weight='balanced')
 clf = GridSearchCV(estimator,
                    param_grid = {'n_estimators' : [5,10,20,40],
                                  'max_depth' : [None, 3, 6],
