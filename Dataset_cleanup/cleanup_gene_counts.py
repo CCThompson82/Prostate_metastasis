@@ -31,4 +31,7 @@ def transformation(dataset) :
         print("\nTransformation Successful!\n\nTranscript abundance estimates have been transformed to transcripts per million reads")
 
 transformation(gene_counts)
-gene_counts.astype(float)
+X_all = gene_counts
+
+gene_counts = feather.read_dataframe('Gene_counts.feather')
+gene_counts.set_index(['gc_index'], inplace = True)
