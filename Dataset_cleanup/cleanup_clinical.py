@@ -22,7 +22,7 @@ at the onset of diagnosis is available.  This decision was made in order to
 mimic the state of knowledge at the beginning of the patient's diagnosis."""
 clinical.set_index(['clinical_index'], inplace=True) #set index to the TCGA ID
 
-y = clinical['pathologyNstage'] #pull out the label (metastasis or no metastasis) as y
+y_all = clinical['pathologyNstage'] #pull out the label (metastasis or no metastasis) as y
 clinical.drop(['pathologyNstage'], axis = 1, inplace=True) #drop label from feature set
 
 def useless_vars(dataset) :
