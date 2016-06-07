@@ -3,9 +3,9 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 base_est = DecisionTreeClassifier(criterion='gini',
                                   splitter='best',
-                                  max_depth=2,
-                                  min_samples_split=2,
-                                  min_samples_leaf=1,
+                                  max_depth=1,
+                                  min_samples_split=50,
+                                  min_samples_leaf=10,
                                   min_weight_fraction_leaf=0.0,
                                   max_features=None,
                                   random_state=123,
