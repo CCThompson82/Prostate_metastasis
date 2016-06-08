@@ -16,7 +16,7 @@ base_est = DecisionTreeClassifier(criterion='gini',
 estimator = AdaBoostClassifier(base_estimator=base_est,
                          n_estimators=100,
                          learning_rate=.001,
-                         algorithm='SAMME.R',
+                         algorithm='SAMME',
                          random_state=123)
 
 clf = GridSearchCV(estimator,
