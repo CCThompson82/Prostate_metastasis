@@ -12,7 +12,7 @@ estimator = SVC(C= .5,
                 max_iter=-1,
                 random_state= 123)
 selector = RFECV(estimator,
-                 step = 2,
+                 step = 5,
                  cv = 5,
                 scoring = matthews_cor_scorer)
 selector.fit(Xpca_train, ypca_train)
