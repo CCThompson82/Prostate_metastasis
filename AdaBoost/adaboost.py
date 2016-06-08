@@ -16,12 +16,12 @@ base_est = DecisionTreeClassifier(criterion='gini',
 estimator = AdaBoostClassifier(base_estimator=base_est,
                          n_estimators=100,
                          learning_rate=.001,
-                         algorithm='SAMME',
+                         algorithm='SAMME.R',
                          random_state=123)
 
 clf = GridSearchCV(estimator,
                    param_grid = {},
-                   scoring=f1_scorer,
+                   scoring=matthews_cor_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
@@ -36,3 +36,4 @@ ada_clf = clf.best_estimator_
 print(classification_report(y_train,
                             clf.predict(X_train),
                             target_names = ['n0', 'n1']))
+print('MCC: ',matthews_corrcoef(y_train, ada_clf.predict(X_train)))
