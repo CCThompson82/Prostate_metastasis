@@ -1,10 +1,10 @@
 from sklearn.ensemble import RandomForestClassifier
 
-estimator = RandomForestClassifier(n_estimators=10,
+estimator = RandomForestClassifier(n_estimators=50,
                                    criterion='gini',
-                                   max_depth=None,
-                                   min_samples_split=2,
-                                   min_samples_leaf=5,
+                                   max_depth=2,
+                                   min_samples_split=50,
+                                   min_samples_leaf=10,
                                    min_weight_fraction_leaf=0.0,
                                    max_features='auto',
                                    max_leaf_nodes=None,
@@ -16,10 +16,8 @@ estimator = RandomForestClassifier(n_estimators=10,
                                    warm_start=False,
                                    class_weight='balanced')
 clf = GridSearchCV(estimator,
-                   param_grid = {'n_estimators' : [5,10,20,40],
-                                 'max_depth' : [None, 3, 6],
-                                 'min_samples_split' : [100, 50, 25, 6]},
-                   scoring=f1_scorer,
+                   param_grid = {},
+                   scoring=matthews_cor_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
@@ -37,3 +35,5 @@ print(classification_report(y_train,
 
 print(clf.best_estimator_)
 RF_clf = clf.best_estimator_
+
+print('MCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_train)))

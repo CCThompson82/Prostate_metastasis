@@ -3,9 +3,9 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 base_est = DecisionTreeClassifier(criterion='gini',
                                   splitter='best',
-                                  max_depth=2,
-                                  min_samples_split=2,
-                                  min_samples_leaf=1,
+                                  max_depth=1,
+                                  min_samples_split=50,
+                                  min_samples_leaf=10,
                                   min_weight_fraction_leaf=0.0,
                                   max_features=None,
                                   random_state=123,
@@ -21,7 +21,7 @@ estimator = AdaBoostClassifier(base_estimator=base_est,
 
 clf = GridSearchCV(estimator,
                    param_grid = {},
-                   scoring=f1_scorer,
+                   scoring=matthews_cor_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
@@ -36,3 +36,4 @@ ada_clf = clf.best_estimator_
 print(classification_report(y_train,
                             clf.predict(X_train),
                             target_names = ['n0', 'n1']))
+print('MCC: ',matthews_corrcoef(y_train, ada_clf.predict(X_train)))

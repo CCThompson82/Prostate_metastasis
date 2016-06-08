@@ -20,7 +20,7 @@ estimator = LogisticRegression(penalty='l2',
                               n_jobs=1)
 clf = GridSearchCV(estimator,
                    param_grid = {'C': [1,0.5,0.1,0.01]},
-                   scoring=f1_scorer,
+                   scoring=matthews_cor_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
@@ -36,3 +36,5 @@ print(classification_report(y_train,
                             target_names = ['n0', 'n1']))
 Gleason_LR_clf = clf.best_estimator_
 print(Gleason_LR_clf)
+
+print('MCC: ',matthews_corrcoef(y_train, Gleason_LR_clf.predict(gleason_train)))
