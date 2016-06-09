@@ -1,0 +1,29 @@
+The prostate is a glandular organ of the male reproductive system that helps to
+control urinary and reproductive functions.  According to the charity Prostate
+Cancer UK, one in eight British men will  be diagnosed with prostate
+adenocarcinoma (prostate cancer, henceforth 'PC') in their  lifetime {citation}.
+Men over 50 years of age are often subjected to routine digital examinations, or
+urine test (the 'PCA' test) for signs of PC.  However the gold standard
+diagnosis is the Gleason test.  In brief, a series of small needle sized
+biopsies are taken from the patient's prostate gland.  Each biopsy is processed
+and scored by a pathologist for signs of abnormal cell type and
+structure.  Gleason scores ranging from 2 to 5 are considered not
+malignant, whereas scores ranging from 6-10 are considered malignant and provide
+an added estimation of severity (Humphrey, 2004).
+
+Contrary to some types of cancer, malignancies that remain local within the
+prostate are rarely lethal (survival rating of ~99%) {citation}.  However, if a
+malignancy born of the prostate undergoes metastasis (the process of cancer cell
+migration to other sites in the body), the survival rate drops to ~28%.  Because
+of this discrepancy, many men opt for radical prostatectomy (surgical removal of the
+entire prostate).  While ensuring prevention of metastasis, removal of the
+prostate results in high morbidity, e.g. inability to control urination, loss of
+sexual function, etc.
+
+Unfortunately, there are currently no prognostic tests for PC metastasis.  The
+patient data  that is typically available at the time of diagnosis is not rich
+enough to accurately predict the likelihood of prostate cancer metastasis
+{citation}.   A model that is able to predict whether an untreated malignancy
+would be likely to remain locally within the prostate or to metastasize could be
+an invaluable tool on whether prostatectomy (and the associated morbidity) is
+necessary.
