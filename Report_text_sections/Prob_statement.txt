@@ -1,1 +1,4 @@
-The goal of this project is to design a model that will predict
+The goal of this project is to design a model that will predict whether a malignancy
+will metastasize or remain local.  To accomplish this, the model will utilize
+RNA-seq Gene Count data.  RNA-seq is a technique that essentially estimates the
+level of activation for every gene in a sample.  
