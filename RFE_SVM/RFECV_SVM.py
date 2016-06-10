@@ -14,7 +14,7 @@ estimator = SVC(C= .5,
 selector = RFECV(estimator,
                  step = 5,
                  cv = 5,
-                scoring = matthews_cor_scorer)
+                scoring = fbeta_scorer)
 selector.fit(Xpca_train, ypca_train)
 
 print(classification_report(ypca_train,

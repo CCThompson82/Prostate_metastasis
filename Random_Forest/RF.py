@@ -17,7 +17,7 @@ estimator = RandomForestClassifier(n_estimators=50,
                                    class_weight='balanced')
 clf = GridSearchCV(estimator,
                    param_grid = {},
-                   scoring=matthews_cor_scorer,
+                   scoring=fbeta_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,

@@ -20,7 +20,7 @@ estimator = LogisticRegression(penalty='l2',
                               n_jobs=1)
 clf = GridSearchCV(estimator,
                    param_grid = {'C': [1,0.5,0.1,0.01]},
-                   scoring=matthews_cor_scorer,
+                   scoring=fbeta_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
