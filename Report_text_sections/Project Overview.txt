@@ -26,26 +26,17 @@ enough to accurately predict the likelihood of prostate cancer metastasis
 {citation}.   A model that is able to predict whether an untreated malignancy
 would be likely to remain locally within the prostate or to metastasize could be
 an invaluable tool on whether prostatectomy (and the associated morbidity) is
-necessary.
+necessary.  To generate such a model, a more distinguishing set of feature data
+is required.
 
-One potential solution to this problem is the burgeoning emphasis on
-'Personalized Medicine'. In its current context, so-called 'Personalized
-Medicine' refers to use of an individual's  genomic information to inform future
-medical decisions.  For example, presence of  mutations in the BRCA1 (sometimes
-ignominiously referred to as the 'Angelina Jolie gene'),  leads some women to
-undergo a prophylatic mastectomy in the absence of any signs of cancer.  However,
-sequencing of a human genome is a monumental undertaking, even considering the great
-strides made in Next Generation Sequencing technology.  A related, but perhaps,
-less resource intensive, technique is RNA-seq.  Genomic DNA sequencing provides
-information on the entire genome of an individual, irrespective of the fact that most
-genes will not be active in a given tissue versus another tissue.  Sequencing RNA
-which is the first step of gene expression / activation, can provide a quantitative
-analysis of which genes are active in a specific sample.  As an example, one could
-compare the RNA-seq profiles of a tumor and a benign sample from the same person to
-learn which genes are activated / de-activated in the specific tumor.  This could allow
-a more targeted therapy for the patient.
+One potential solution to this problem is an RNA-seq profile.  In brief, RNA-seq
+is a technique that reads and counts RNA sequences in a sample.  When a gene is
+activated in a cell, the DNA sequence is read ('transcribed') into an RNA
+sequence.  Thus by reading all of the RNA molecules that exist in a sample, one
+may determine which genes have been activated, and to what degree.  A gene count
+profile is the estimation of activation for the full set of known human genes.
 
-In the context of prostate cancer, given the assumption that metastatic cancer cells
-(i.e. cells that migrate) will have different gene activation profiles than stationary
-cancer cells, I hypothesized that RNA-seq profiles could be used to predict whether a
-Prostate tumor would metastasize or not.  
+Metastatic cancer cells behave much differently than those that remain local,
+thus there must be an inherent difference in gene activation.  That said, there
+are  likely to be many different genetic paths towards metastasis, so it is
+unlikely that a single gene could distinguish metastasis state.   
