@@ -1,0 +1,24 @@
+As this problem has been defined, a metric for classification is required.  A
+typical classification metric is 'accuracy' - the percentage of observations
+which are correctly classified, however there are several aspects of this
+project which make accuracy unsuitable.  The first complication is that
+metastasis is a somewhat rare event, which leads to an unbalanced prevalence
+within the data set. This is discussed in more detail in the Analysis section,
+however in the context of metric selection, the use of accuracy to score a model
+for unbalanced data can be misleading.  For example, in a data set where 90%
+belong to the negative class, a model that predicts every observation as
+'negative' will achieve a 0.9 accuracy score.  Yet this strategy clearly
+contravenes the point of generating the model to begin.  Another complication is
+that the consequences of calling a False-negative or a False-positive are not
+equal in this project.  A metastasis that is missed (False-negative) could lead
+to death.   A local malignancy that is called as a metastasis (False-positive),
+could lead to an unnecessary surgical procedure and associated morbidity, but
+would have no chance of being lethal.
+
+For unbalanced sets, there are two metrics that are typically used: F1 score and
+the Matthews Correlation Coefficient.  The F1 score is the harmonic mean between
+the positive label classification precision and recall.
+
+$F1 = \frac{2TP}{2TP+FN+FP}$
+
+$MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$
