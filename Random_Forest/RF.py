@@ -17,7 +17,7 @@ estimator = RandomForestClassifier(n_estimators=50,
                                    class_weight='balanced')
 clf = GridSearchCV(estimator,
                    param_grid = {},
-                   scoring=matthews_cor_scorer,
+                   scoring=fbeta_scorer,
                    fit_params=None,
                    n_jobs=1,
                    iid=True,
@@ -35,5 +35,5 @@ print(classification_report(y_train,
 
 print(clf.best_estimator_)
 RF_clf = clf.best_estimator_
-
+print('F beta: ', fbeta_score(y_train, RF_clf.predict(X_train), beta = 2, pos_label='n1'))
 print('MCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_train)))
