@@ -35,5 +35,5 @@ print(classification_report(y_train,
 
 print(clf.best_estimator_)
 RF_clf = clf.best_estimator_
-
+print('F beta: ', fbeta_score(y_train, RF_clf.predict(X_train), beta = 2, pos_label='n1'))
 print('MCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_train)))

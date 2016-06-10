@@ -36,5 +36,5 @@ print(classification_report(y_train,
                             target_names = ['n0', 'n1']))
 Gleason_LR_clf = clf.best_estimator_
 print(Gleason_LR_clf)
-
+print('F beta: ', fbeta_score(y_train, Gleason_LR_clf.predict(gleason_train), beta = 2, pos_label='n1'))
 print('MCC: ',matthews_corrcoef(y_train, Gleason_LR_clf.predict(gleason_train)))

@@ -36,4 +36,5 @@ ada_clf = clf.best_estimator_
 print(classification_report(y_train,
                             clf.predict(X_train),
                             target_names = ['n0', 'n1']))
+print('F beta: ', fbeta_score(y_train, ada_clf.predict(X_train), beta = 2, pos_label='n1'))
 print('MCC: ',matthews_corrcoef(y_train, ada_clf.predict(X_train)))
