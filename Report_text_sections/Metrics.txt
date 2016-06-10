@@ -21,4 +21,6 @@ the positive label classification precision and recall.
 
 $F1 = \frac{2TP}{2TP+FN+FP}$
 
+$F_\beta = (1+ \beta^2) \frac{precision\, x\, recall}{(\beta^2\, x\, precision)\,+\,recall} $
+
 $MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$
