@@ -7,31 +7,37 @@ within the data set. This is discussed in more detail in the Analysis section,
 however in the context of metric selection, the use of accuracy to score a model
 for unbalanced data can be misleading.  For example, in a data set where 90%
 belong to the negative class, a model that predicts every observation as
-'negative' will achieve a 0.9 accuracy score.  Yet this strategy clearly
-contravenes the point of generating the model to begin.  Another complication is
-that the consequences of calling a False-negative or a False-positive are not
-equal in this project.  A metastasis that is missed (False-negative) could lead
-to mortality.   A local malignancy that is called as a metastasis
-(False-positive), could lead to an unnecessary morbidity, but would not be
+'negative' will achieve a respectable 0.9 accuracy score.  Yet this strategy
+clearly contravenes the point of generating a model for prediction.  Another
+complication is that the consequences of calling a False-negative (FN) or a
+False-positive (FP) are not equal in this project.  A metastasis that is missed
+(FN) could lead to mortality, whereas a local malignancy that is called as a
+metastasis (FP), would lead to an unnecessary morbidity, but would not be
 lethal.
 
 To address the issue of unbalanced data, one could use a metric such as the
 Matthew's Correlation Coefficient (MCC).
 
-$MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$
+$$MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$$
 
-This metric ranges from -1 to 1, with zero being the score expected by random
-guessing.  Thus it provides an informative performance metric without a reviewers
-prior knowledge of class balance.
+This metric ranges from -1 to 1, with zero being the score expected from a model
+that guesses randomly.  Thus it provides an informative performance metric
+without a reviewers prior knowledge of class balance.  However, the MCC does not
+incorporate the distinct consequences of FP and FN in model performance.
 
-However, the MCC does not incorporate the distinct consequences of FP and FN in
-model performance, which would be a desirable charateristic in this project.
-The F1 score can distinguish 
+For this, an iteration of the $F\beta$ score could be used.  While the F1 score
+is the harmonic mean between the precision and recall of the named positive
+label, a beta parameter may be introduced in order to alter the importance of
+recall versus precision within the model performance metric.  Setting \beta to 2
+weights recall as twice as important than precision, and is called the F2 score.
 
-For unbalanced sets, there are two metrics that are typically used: F1 score and
-the Matthews Correlation Coefficient.  The F1 score is the harmonic mean between
-the positive label classification precision and recall.
+$$F1 = \frac{2TP}{2TP+FN+FP}$$
 
-$F1 = \frac{2TP}{2TP+FN+FP}$
+$$F_\beta = (1+ \beta^2) \frac{precision\, x\, recall}{(\beta^2\, x\, precision)\,+\,recall}$$
 
-$F_\beta = (1+ \beta^2) \frac{precision\, x\, recall}{(\beta^2\, x\, precision)\,+\,recall} $
+For the purposes of this project, recall of metastasis is the most important
+feature of model performance, however precision is not insignificant.  Therefore
+an F2 score was implemented (i.e. $F_\beta$, with $\beta := 2$) as the main
+performance metric.  To ensure no model was 'gaming' the performance measure, I
+chose to include the MCC value in each assessment as a control for balanced
+accuracy.
