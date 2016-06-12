@@ -11,9 +11,22 @@ belong to the negative class, a model that predicts every observation as
 contravenes the point of generating the model to begin.  Another complication is
 that the consequences of calling a False-negative or a False-positive are not
 equal in this project.  A metastasis that is missed (False-negative) could lead
-to death.   A local malignancy that is called as a metastasis (False-positive),
-could lead to an unnecessary surgical procedure and associated morbidity, but
-would have no chance of being lethal.
+to mortality.   A local malignancy that is called as a metastasis
+(False-positive), could lead to an unnecessary morbidity, but would not be
+lethal.
+
+To address the issue of unbalanced data, one could use a metric such as the
+Matthew's Correlation Coefficient (MCC).
+
+$MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$
+
+This metric ranges from -1 to 1, with zero being the score expected by random
+guessing.  Thus it provides an informative performance metric without a reviewers
+prior knowledge of class balance.
+
+However, the MCC does not incorporate the distinct consequences of FP and FN in
+model performance, which would be a desirable charateristic in this project.
+The F1 score can distinguish 
 
 For unbalanced sets, there are two metrics that are typically used: F1 score and
 the Matthews Correlation Coefficient.  The F1 score is the harmonic mean between
@@ -22,5 +35,3 @@ the positive label classification precision and recall.
 $F1 = \frac{2TP}{2TP+FN+FP}$
 
 $F_\beta = (1+ \beta^2) \frac{precision\, x\, recall}{(\beta^2\, x\, precision)\,+\,recall} $
-
-$MCC = \frac{TP x TN - FP x FN}{\sqrt{(TP+FP)(TP+FM)(TN+FP)(TN+FN)}}$
