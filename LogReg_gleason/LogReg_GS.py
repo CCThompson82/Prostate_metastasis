@@ -30,11 +30,10 @@ clf = GridSearchCV(estimator,
                    pre_dispatch='2*n_jobs',
                    error_score='raise')
 clf.fit(gleason_train, y_train)
-
+Gleason_LR_clf = clf.best_estimator_
+print(Gleason_LR_clf)
 print(classification_report(y_train,
                             clf.predict(gleason_train),
                             target_names = ['n0', 'n1']))
-Gleason_LR_clf = clf.best_estimator_
-print(Gleason_LR_clf)
-print('F beta: ', fbeta_score(y_train, Gleason_LR_clf.predict(gleason_train), beta = 2, pos_label='n1'))
-print('MCC: ',matthews_corrcoef(y_train, Gleason_LR_clf.predict(gleason_train)))
+print('\nF beta: ', fbeta_score(y_train, Gleason_LR_clf.predict(gleason_train), beta = 2, pos_label='n1'))
+print('\nMCC: ',matthews_corrcoef(y_train, Gleason_LR_clf.predict(gleason_train)))
