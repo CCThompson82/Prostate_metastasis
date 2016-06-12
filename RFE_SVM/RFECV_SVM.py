@@ -3,7 +3,7 @@ from sklearn.svm import SVC
 
 estimator = SVC(C= .5,
                 kernel='linear',
-                probability=False,
+                probability=True,
                 tol=0.001,
                 gamma = 'auto',
                 cache_size=200,
@@ -14,7 +14,7 @@ estimator = SVC(C= .5,
 selector = RFECV(estimator,
                  step = 5,
                  cv = 5,
-                scoring = fbeta_scorer)
+                 scoring = fbeta_scorer)
 selector.fit(Xpca_train, ypca_train)
 
 print(classification_report(ypca_train,
