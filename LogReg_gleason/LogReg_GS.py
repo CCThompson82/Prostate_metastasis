@@ -1,8 +1,25 @@
 from sklearn.linear_model import LogisticRegression
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+lda = LinearDiscriminantAnalysis(solver='svd',
+                                 shrinkage=None,
+                                 priors=None,
+                                 n_components=1,
+                                 store_covariance=False,
+                                 tol=0.0001)
+lda.fit(X_train,y_train)
+Xlda_train = lda.transform(X_train)
+Xlda_test = lda.transform(X_test)
+
+
 gleason_train = gleason.loc[y_train.index]
 gleason_test = gleason.loc[y_test.index]
 gleason_train = gleason_train.reshape(-1,1)
 gleason_test = gleason_test.reshape(-1,1)
+
+logisticDF = pd.DataFrame({'lda_transform' : Xlda_train[:,0],
+                           'gleason_scores' : gleason_train[:,0]}, index = y_train.index)
+logisticDF_test = pd.DataFrame({'lda_transform' : Xlda_test[:,0],
+                                'gleason_scores' : gleason_test[:,0]}, index = y_test.index)
 
 estimator = LogisticRegression(penalty='l2',
                               dual=False,
@@ -29,11 +46,11 @@ clf = GridSearchCV(estimator,
                    verbose=0,
                    pre_dispatch='2*n_jobs',
                    error_score='raise')
-clf.fit(gleason_train, y_train)
-Gleason_LR_clf = clf.best_estimator_
-print(Gleason_LR_clf)
+clf.fit(logisticDF, y_train)
+LR_clf = clf.best_estimator_
+print(LR_clf)
 print(classification_report(y_train,
-                            clf.predict(gleason_train),
+                            LR_clf.predict(logisticDF),
                             target_names = ['n0', 'n1']))
-print('\nF beta: ', fbeta_score(y_train, Gleason_LR_clf.predict(gleason_train), beta = 2, pos_label='n1'))
-print('\nMCC: ',matthews_corrcoef(y_train, Gleason_LR_clf.predict(gleason_train)))
+print('\nF beta: ', fbeta_score(y_train, LR_clf.predict(logisticDF), beta = 2, pos_label='n1'))
+print('\nMCC: ',matthews_corrcoef(y_train, LR_clf.predict(logisticDF)))
