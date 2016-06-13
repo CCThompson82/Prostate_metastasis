@@ -12,7 +12,7 @@ malignant, whereas scores ranging from 6-10 are considered malignant and provide
 an added estimation of severity (Humphrey, 2004).
 
 Contrary to some types of cancer, malignancies that remain local within the
-prostate are rarely lethal (survival rating of ~99%) {citation}.  However, if a
+prostate are rarely lethal (survival rate of ~99%) {citation}.  However, if a
 malignancy born of the prostate undergoes metastasis (the process of cancer cell
 migration to other sites in the body), the survival rate drops to ~28%.  Because
 of this discrepancy, many men opt for radical prostatectomy (surgical removal of the
@@ -36,7 +36,12 @@ sequence.  Thus by reading all of the RNA molecules that exist in a sample, one
 may determine which genes have been activated, and to what degree.  A gene count
 profile is the estimation of activation for the full set of known human genes.
 
-Metastatic cancer cells behave much differently than those that remain local,
-thus there must be an inherent difference in gene activation.  That said, there
-are  likely to be many different genetic paths towards metastasis, so it is
-unlikely that a single gene could distinguish metastasis state.   
+As metastatic cancer cells behave in drastically different ways than malignant
+cells that remain local, there must be an inherent difference in gene activation
+between the two cell types.   This difference may be detectable, however there
+are likely to be many different genetic paths towards metastasis. Thus it is
+unlikely that a single gene could distinguish metastasis state and local
+malignancy. The ultimate goal of this project is to determine whether the
+RNA-seq profile taken from a cancerous prostate biopsy during initial
+presentation and diagnosis, is  sufficient for prognosis of prostate cancer
+metastasis.

@@ -1,17 +1,18 @@
-The questions that this project aims to answer are :
+The primary questions that this project aims to answer are :
 
 * Can prostate cancer metastasis state be predicted from a gene activation
-(RNA-seq) profile? 
+(RNA-seq) profile?
 
 * If so, what genes (individually or in concert) are important for this
 classification?
 
-Thus, the goal of this project is to design a model that predicts Prostate
+The goal of this project is to design a model that predicts Prostate
 Cancer metastasis using the gene activation profile derived from the patient's
-prostate biopsy, taken at the initial Gleason Test diagnosis phase. It is likely
-that a  significant feature reduction exercise will be required to reduce the
-number of features, as each  RNA-seq profile quantifies expression of 20501
-genes.  Upon Feature Reduction, a variety of algorithms will be employed and
+prostate biopsy, taken at the initial Gleason Test diagnosis phase.
+
+To acheive this goal, it is likely that a  significant feature reduction exercise will
+be necessary, as each  RNA-seq profile quantifies expression of ~20501 human
+genes.  After Feature Reduction, several classification algorithms will be employed and
 tested for predictive performance.  A final model will be built and optimized.
-Finally, a function or application will be built that receives an RNA-seq
-profile and outputs a prediction for future metastasis.
+Finally, a function or application will be engineered that receives an RNA-seq
+profile as an input and outputs a prediction for future metastasis.
