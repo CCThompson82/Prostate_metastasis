@@ -13,7 +13,7 @@ clinical = feather.read_dataframe('Clinical_data.feather')
 
 #Check data import:
 if np.isfinite(clinical.shape[0]) :
-    print("Clinical data set imported")
+    print("Clinical data set imported!")
 else :
     print("Error in Clinical data set import")
 
@@ -28,7 +28,7 @@ clinical.drop(['pathologyNstage'], axis = 1, inplace=True) #drop label from feat
 def useless_vars(dataset) :
     df = pd.DataFrame(dataset.describe())
     to_drop = df.columns[df.loc['unique'] <= 1]
-    print("\n\n","The following features do not provide any information:","\n",to_drop.values,"\n")
+    print("\n","The following features do not provide any information:","\n",to_drop.values,"\n")
     dataset.drop(to_drop, axis = 1, inplace = True)
     return(dataset)
 
@@ -51,8 +51,8 @@ def future_vars(dataset) :
     keep = df[df['Known_at_diagnosis'] != 'no'].index
     dropped = df[df['Known_at_diagnosis'] == 'no'].index
     dataset.drop(dropped.values, axis = 1, inplace = True)
-    print("\n\n","Variables that are not known at initial diagnosis:","\n", dropped.values, "\n")
-    print("\nVariables that are known at the time of diagnosis:\n",keep.values)
+    print("Variables that are not known at initial diagnosis:","\n", dropped.values, "\n")
+    print("Variables that are known at the time of diagnosis:\n",keep.values)
     return(dataset)
 
 gleason = clinical['gleasonscore']

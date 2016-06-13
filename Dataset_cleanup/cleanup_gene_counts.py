@@ -7,7 +7,7 @@ gene_counts = feather.read_dataframe('Gene_counts.feather')
 
 #Check data import:
 if np.isfinite(gene_counts.shape[0]) :
-    print("Gene Counts data set imported")
+    print("Gene Counts data set imported!")
 else :
     print("Error in Gene_counts import")
 
@@ -19,16 +19,18 @@ clean-up is to transform these values to be normalized by the total number of
 reads for the sample (in Millions)."""
 
 gene_counts.set_index(['gc_index'], inplace = True) # set the index as the TCGA ID codes
-print("")
 #print(gene_counts.index[1:5]) [Debug]
-print("Dimension of DataFrame:", gene_counts.shape)
+print("\nDimension of DataFrame:", gene_counts.shape,"\n")
 
 def transformation(dataset) :
     read_count = dataset.sum(axis = 1) #get the total reads for each sample
     for r in range(0,dataset.shape[0]) :
         dataset.iloc[r] = 1000000 * dataset.iloc[r] / read_count.iloc[r] #transform each read abundance (rsem) by the sample reads / million
-    if sum(round(dataset.sum(axis = 1)) == 1e6) == 550 :  #the sum of each row in the transformed df should be 1000000.  if every row is transformed correctly, print statement
-        print("\nTransformation Successful!\n\nTranscript abundance estimates have been transformed to transcripts per million reads")
+    if sum(round(dataset.sum(axis = 1)) == 1e6) == dataset.shape[0] :  #the sum of each row in the transformed df should be 1000000.  if every row is transformed correctly, print statement
+        print("Transformation Successful!\n")
+        print(dataset.shape[0],'Gene count estimate profiles have been transformed from transcript abundance estimates to transcripts per million reads (TPM)')
+    else :
+        print("Error in gene count transformation to TPM")
 
 transformation(gene_counts)
 X_all = gene_counts
