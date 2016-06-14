@@ -34,20 +34,20 @@ def useless_vars(dataset) :
 
 def future_vars(dataset) :
     df = pd.DataFrame({'Known_at_diagnosis' : '?'}, index = dataset.columns)
-    df.loc['dateofinitialpathologicdiagnosis']['Known_at_diagnosis'] = 'yes'
-    df.loc['daystolastfollowup']['Known_at_diagnosis'] = 'no'
-    df.loc['daystodeath']['Known_at_diagnosis'] = 'no'
-    df.loc['daystopsa']['Known_at_diagnosis'] = 'no'
-    df.loc['gleasonscore']['Known_at_diagnosis'] = 'no'  #this is the point of the biopsy and would typically be known within 2 weeks.
-    df.loc['histologicaltype']['Known_at_diagnosis'] = 'no'
-    df.loc['numberoflymphnodes']['Known_at_diagnosis'] = 'no'
-    df.loc['pathologyTstage']['Known_at_diagnosis'] = 'no'
-    df.loc['psavalue']['Known_at_diagnosis'] = 'yes'
-    df.loc['race']['Known_at_diagnosis'] = 'yes'
-    df.loc['residualtumor']['Known_at_diagnosis'] = 'no'
-    df.loc['radiationtherapy']['Known_at_diagnosis'] = 'no'
-    df.loc['vitalstatus']['Known_at_diagnosis'] = 'no'
-    df.loc['yearstobirth']['Known_at_diagnosis'] = 'yes'
+    df.loc[('dateofinitialpathologicdiagnosis','Known_at_diagnosis')] = 'yes'
+    df.loc[('daystolastfollowup','Known_at_diagnosis')] = 'no'
+    df.loc[('daystodeath','Known_at_diagnosis')] = 'no'
+    df.loc[('daystopsa','Known_at_diagnosis')] = 'no'
+    df.loc[('gleasonscore','Known_at_diagnosis')] = 'yes'  #this is the point of the biopsy and would typically be known within 2 weeks.
+    df.loc[('histologicaltype','Known_at_diagnosis')] = 'no'
+    df.loc[('numberoflymphnodes','Known_at_diagnosis')] = 'no'
+    df.loc[('pathologyTstage','Known_at_diagnosis')] = 'no'
+    df.loc[('psavalue','Known_at_diagnosis')] = 'yes'
+    df.loc[('race','Known_at_diagnosis')] = 'yes'
+    df.loc[('residualtumor','Known_at_diagnosis')] = 'no'
+    df.loc[('radiationtherapy','Known_at_diagnosis')] = 'no'
+    df.loc[('vitalstatus','Known_at_diagnosis')] = 'no'
+    df.loc[('yearstobirth','Known_at_diagnosis')] = 'yes'
     keep = df[df['Known_at_diagnosis'] != 'no'].index
     dropped = df[df['Known_at_diagnosis'] == 'no'].index
     dataset.drop(dropped.values, axis = 1, inplace = True)
@@ -66,8 +66,8 @@ clinical['race'] = clinical['race'].astype(str)
 clinical['race'].replace('None', 'Not_provided', inplace = True) #Change the 'None' default to specific information (race was 'Not_provided')
 clinical['race'].replace('black or african american', 'black_or_AA', inplace = True)
 clinical['yearstobirth'] = pd.to_numeric(clinical['yearstobirth'], errors = 'coerce') #must be a float as NA cannot be coerced into integer in pandas
-
-clinical = pd.get_dummies(clinical)
+clinical['gleasonscore'] = pd.to_numeric(clinical['gleasonscore'], errors= 'coerce')
+#clinical = pd.get_dummies(clinical)
 
 
 print("\nDimensions of clinical dataframe:", clinical.shape)
