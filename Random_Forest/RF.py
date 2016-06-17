@@ -1,6 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 
-estimator = RandomForestClassifier(n_estimators=50,
+estimator = RandomForestClassifier(n_estimators=200,
                                    criterion='gini',
                                    max_depth=2,
                                    min_samples_split=50,

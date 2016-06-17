@@ -10,8 +10,8 @@ lda.fit(Xpca_train,ypca_train)
 Xlda_train = lda.transform(Xpca_train)
 Xlda_test = lda.transform(Xpca_test)
 
-gleason = clinical['gleasonscore']
-gleason = gleason.loc[y.index]
+#gleason = clinical['gleasonscore']
+#gleason = gleason.loc[y.index]
 gleason_train = gleason.loc[y_train.index]
 gleason_test = gleason.loc[y_test.index]
 gleason_train = gleason_train.reshape(-1,1)
