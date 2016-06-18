@@ -1,15 +1,15 @@
 from sklearn.ensemble import RandomForestClassifier
 
-estimator = RandomForestClassifier(n_estimators=200,
+estimator = RandomForestClassifier(n_estimators=50,
                                    criterion='gini',
-                                   max_depth=2,
-                                   min_samples_split=50,
-                                   min_samples_leaf=10,
+                                   max_depth=3,
+                                   min_samples_split=75,
+                                   min_samples_leaf=20,
                                    min_weight_fraction_leaf=0.0,
                                    max_features='auto',
                                    max_leaf_nodes=None,
                                    bootstrap=True,
-                                   oob_score=False,
+                                   oob_score=True,
                                    n_jobs=1,
                                    random_state=123,
                                    verbose=0,
@@ -27,11 +27,11 @@ clf = GridSearchCV(estimator,
                    pre_dispatch='2*n_jobs',
                    error_score='raise')
 
-clf.fit(X_train, y_train)
+clf.fit(X_k.loc[X_train.index], y_train)
 print(clf.best_estimator_)
 print('\n',classification_report(y_train,
-                            clf.predict(X_train),
+                            clf.predict(X_k.loc[X_train.index]),
                             target_names = ['n0', 'n1']))
 RF_clf = clf.best_estimator_
-print('\nF beta: ', fbeta_score(y_train, RF_clf.predict(X_train), beta = 2, pos_label='n1'))
-print('\nMCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_train)))
+print('\nF beta: ', fbeta_score(y_train, RF_clf.predict(X_k.loc[X_train.index]), beta = 2, pos_label='n1'))
+print('\nMCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_k.loc[X_train.index])))

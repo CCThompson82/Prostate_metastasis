@@ -23,6 +23,7 @@ gene_counts.set_index(['gc_index'], inplace = True) # set the index as the TCGA 
 print("\nDimension of DataFrame:", gene_counts.shape,"\n")
 
 def transformation(dataset) :
+    print("Transforming gene counts to transcript per million (TPM)")
     read_count = dataset.sum(axis = 1) #get the total reads for each sample
     for r in range(0,dataset.shape[0]) :
         dataset.iloc[r] = 1000000 * dataset.iloc[r] / read_count.iloc[r] #transform each read abundance (rsem) by the sample reads / million

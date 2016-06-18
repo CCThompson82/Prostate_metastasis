@@ -6,20 +6,20 @@ lda = LinearDiscriminantAnalysis(solver='svd',
                                  n_components=1,
                                  store_covariance=False,
                                  tol=0.0001)
-lda.fit(Xpca_train,ypca_train)
-Xlda_train = lda.transform(Xpca_train)
-Xlda_test = lda.transform(Xpca_test)
+#lda.fit(X_k.loc[X_train.index],y_train)
+#Xlda_train = lda.transform(X_k.loc[X_train.index])
+#Xlda_test = lda.transform(X_k.loc[X_test.index])
 
-#gleason = clinical['gleasonscore']
-#gleason = gleason.loc[y.index]
+gleason = clinical['gleasonscore']
+gleason = gleason.loc[y.index]
 gleason_train = gleason.loc[y_train.index]
 gleason_test = gleason.loc[y_test.index]
 gleason_train = gleason_train.reshape(-1,1)
 gleason_test = gleason_test.reshape(-1,1)
 
-logisticDF = pd.DataFrame({'lda_transform' : Xlda_train[:,0],
+logisticDF = pd.DataFrame({#'lda_transform' : Xlda_train[:,0],
                            'gleason_scores' : gleason_train[:,0]}, index = y_train.index)
-logisticDF_test = pd.DataFrame({'lda_transform' : Xlda_test[:,0],
+logisticDF_test = pd.DataFrame({#'lda_transform' : Xlda_test[:,0],
                                 'gleason_scores' : gleason_test[:,0]}, index = y_test.index)
 
 estimator = LogisticRegression(penalty='l2',
@@ -37,7 +37,7 @@ estimator = LogisticRegression(penalty='l2',
                               warm_start=False,
                               n_jobs=1)
 clf = GridSearchCV(estimator,
-                   param_grid = {'C': [1,0.5,0.1,0.01]},
+                   param_grid = {},
                    scoring=fbeta_scorer,
                    fit_params=None,
                    n_jobs=1,
