@@ -1,12 +1,12 @@
 from sklearn.ensemble import RandomForestClassifier
 
-estimator = RandomForestClassifier(n_estimators=200,
+estimator = RandomForestClassifier(n_estimators=600,
                                    criterion='gini',
                                    max_depth=3,
                                    min_samples_split=75,
-                                   min_samples_leaf=1,
+                                   min_samples_leaf=30,
                                    min_weight_fraction_leaf=0.0,
-                                   max_features=10,
+                                   max_features= 25,
                                    max_leaf_nodes=None,
                                    bootstrap=True,
                                    oob_score=True,
@@ -14,10 +14,9 @@ estimator = RandomForestClassifier(n_estimators=200,
                                    random_state=123,
                                    verbose=0,
                                    warm_start=False,
-                                   class_weight='balanced')
+                                   class_weight={'n0': 1, 'n1':8})
 clf = GridSearchCV(estimator,
-                   param_grid = {'n_estimators' : [50, 100, 200],
-                                 'max_features' : [10, 25, 100]},
+                   param_grid = {},
                    scoring=matthews_cor_scorer,
                    fit_params=None,
                    n_jobs=1,

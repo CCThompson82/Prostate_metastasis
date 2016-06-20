@@ -1,8 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.linear_model import SGDClassifier
-gleason = clinical['gleasonscore']
-gleason = gleason.loc[y.index]
+from sklearn.model_selection import GridSearchCV
 
 lda = LinearDiscriminantAnalysis(solver='svd',
                                  shrinkage=None,
@@ -15,7 +13,10 @@ lda = LinearDiscriminantAnalysis(solver='svd',
 lda.fit(X_k.loc[X_train.index],y_train)
 
 logisticDF = pd.DataFrame({'lda_decision': lda.decision_function(X_k),
-                           'gleason': gleason}, index=X_k.index)
+                           'gleason': gleason,
+                           #'age': age ,
+                           #'psa' : psa,
+                           }, index=X_k.index)
 
 logisticDF_train = logisticDF.loc[X_train.index, :]
 logisticDF_test = logisticDF.loc[X_test.index, :]
@@ -27,7 +28,7 @@ estimator = LogisticRegression(penalty='l2',
                               C=1,
                               fit_intercept=True,
                               intercept_scaling=1,
-                              class_weight='balanced',
+                              class_weight={'n0':1, 'n1': 8},
                               random_state=123,
                               solver='liblinear',
                               max_iter=100,
