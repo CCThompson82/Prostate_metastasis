@@ -1,16 +1,5 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.model_selection import GridSearchCV
-
-lda = LinearDiscriminantAnalysis(solver='svd',
-                                 shrinkage=None,
-                                 priors=None,
-                                 n_components=1,
-                                 store_covariance=False,
-                                 tol=0.0001)
-
-
-lda.fit(X_k.loc[X_train.index],y_train)
 
 logisticDF = pd.DataFrame({'lda_decision': lda.decision_function(X_k),
                            'gleason': gleason,
