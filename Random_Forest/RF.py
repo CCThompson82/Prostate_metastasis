@@ -1,37 +1,65 @@
 from sklearn.ensemble import RandomForestClassifier
 
-estimator = RandomForestClassifier(n_estimators=600,
+estimator = RandomForestClassifier(n_estimators=300,
                                    criterion='gini',
-                                   max_depth=3,
-                                   min_samples_split=75,
-                                   min_samples_leaf=30,
+                                   max_depth=None,
+                                   min_samples_split=30,
+                                   min_samples_leaf=10,
                                    min_weight_fraction_leaf=0.0,
-                                   max_features= 25,
+                                   max_features= 'auto',
                                    max_leaf_nodes=None,
                                    bootstrap=True,
-                                   oob_score=True,
+                                   oob_score=False,
                                    n_jobs=1,
                                    random_state=123,
                                    verbose=0,
                                    warm_start=False,
-                                   class_weight={'n0': 1, 'n1':8})
-clf = GridSearchCV(estimator,
-                   param_grid = {},
-                   scoring=matthews_cor_scorer,
-                   fit_params=None,
-                   n_jobs=1,
-                   iid=True,
-                   refit=True,
-                   cv= 5,
-                   verbose=0,
-                   pre_dispatch='2*n_jobs',
-                   error_score='raise')
+                                   class_weight='balanced')
 
-clf.fit(X_k.loc[X_train.index], y_train)
-print(clf.best_estimator_)
-print('\n',classification_report(y_train,
-                            clf.predict(X_k.loc[X_train.index]),
-                            target_names = ['n0', 'n1']))
-RF_clf = clf.best_estimator_
-print('\nF beta: ', fbeta_score(y_train, RF_clf.predict(X_k.loc[X_train.index]), beta = 2, pos_label='n1'))
-print('\nMCC: ',matthews_corrcoef(y_train, RF_clf.predict(X_k.loc[X_train.index])))
+
+train_sizes, train_scores, test_scores = learning_curve(estimator,
+                                                        X_k.loc[X_train.index, :],
+                                                        y_train,
+                                                        train_sizes = [0.33, 0.66, 1],
+                                                        cv = 4,
+                                                        scoring=fbeta_scorer,
+                                                        exploit_incremental_learning= False)
+param_range = [10, 50, 100, 250]
+train_scores_val, val_scores_val = validation_curve(estimator,
+                                                    X_k.loc[X_train.index, :],
+                                                    y_train,
+                                                    param_name = "n_estimators",
+                                                    param_range= param_range,
+                                                    cv=4,
+                                                    scoring = fbeta_scorer,
+                                                    n_jobs=1)
+
+
+LC_fig = plt.figure(figsize=(15,5))
+A = LC_fig.add_subplot(1,2,1)
+A.plot(train_sizes, np.mean(train_scores, axis=1), 'o-', color = 'blue')
+A.plot(train_sizes, np.mean(test_scores, axis=1), 'o-', color = 'green')
+A.fill_between(train_sizes,
+               np.mean(train_scores, axis=1) - np.std(train_scores, axis=1),
+               np.mean(train_scores, axis=1) + np.std(train_scores, axis=1),
+               color ='blue',
+               alpha = 0.25)
+A.fill_between(train_sizes,
+               np.mean(test_scores, axis=1) - np.std(test_scores, axis=1),
+               np.mean(test_scores, axis=1) + np.std(test_scores, axis=1),
+               color ='green',
+               alpha = 0.25)
+B = LC_fig.add_subplot(1,2,2)
+B.plot(param_range, np.mean(train_scores_val, axis=1), 'o-', color = 'blue')
+B.plot(param_range, np.mean(val_scores_val, axis=1), 'o-', color = 'green')
+B.fill_between(param_range,
+               np.mean(train_scores_val, axis=1) - np.std(train_scores_val, axis=1),
+               np.mean(train_scores_val, axis=1) + np.std(train_scores_val, axis=1),
+               color ='blue',
+               alpha = 0.25)
+B.fill_between(param_range,
+               np.mean(val_scores_val, axis=1) - np.std(val_scores_val, axis=1),
+               np.mean(val_scores_val, axis=1) + np.std(val_scores_val, axis=1),
+               color ='green',
+               alpha = 0.25)
+plt.show()

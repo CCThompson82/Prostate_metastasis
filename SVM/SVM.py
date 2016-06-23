@@ -1,6 +1,6 @@
 from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV
+from sklearn.feature_selection import RFECV
 
 estimator = SVC(C=1,
           kernel='linear',
@@ -13,21 +13,58 @@ estimator = SVC(C=1,
           max_iter=-1,
           random_state= 123)
 
-clf_search = GridSearchCV(estimator,
-                   param_grid = {'C': [1,0.5, 0.1]},
-                   scoring=fbeta_scorer,
-                   fit_params=None,
-                   n_jobs=1,
-                   iid=True,
-                   refit=True,
-                   cv= 5,
-                   verbose=0,
-                   pre_dispatch='2*n_jobs',
-                   error_score='raise')
-clf_search.fit(Xpca_train, ypca_train)
-clf_svm = clf_search.best_estimator_
-print(classification_report(ypca_train,
-                            clf_svm.predict(Xpca_train),
-                            target_names = ['n0', 'n1']))
-print('\nF beta: ', fbeta_score(ypca_train, clf_svm.predict(Xpca_train), pos_label='n1',beta=2))
-print('\nMCC: ',matthews_corrcoef(ypca_train, clf_svm.predict(Xpca_train)))
+clf_svm_rf = RFECV(estimator,
+                   step=1,
+                   cv=4,
+                   scoring=fbeta_scorer)
+
+clf_svm_rf.fit(X_k40.loc[X_train.index,:], y_train)
+
+X_svm = pd.DataFrame(clf_svm_rf.transform(X_k40), index= X_k40.index, columns = X_k40.columns[clf_svm_rf.support_])
+
+train_sizes, train_scores, test_scores = learning_curve(estimator,
+                                                        X_svm.loc[X_train.index, :],
+                                                        y_train,
+                                                        train_sizes = [0.33, 0.66, 1],
+                                                        cv = 4,
+                                                        scoring=fbeta_scorer,
+                                                        exploit_incremental_learning= False)
+param_range = [1, 0.8, 0.5, 0.25, 0.1]
+train_scores_val, val_scores_val = validation_curve(estimator,
+                                                    X_svm.loc[X_train.index, :],
+                                                    y_train,
+                                                    param_name = "C",
+                                                    param_range= param_range,
+                                                    cv=4,
+                                                    scoring = fbeta_scorer,
+                                                    n_jobs=1)
+
+
+LC_fig = plt.figure(figsize=(15,5))
+A = LC_fig.add_subplot(1,2,1)
+A.plot(train_sizes, np.mean(train_scores, axis=1), 'o-', color = 'blue')
+A.plot(train_sizes, np.mean(test_scores, axis=1), 'o-', color = 'green')
+A.fill_between(train_sizes,
+               np.mean(train_scores, axis=1) - np.std(train_scores, axis=1),
+               np.mean(train_scores, axis=1) + np.std(train_scores, axis=1),
+               color ='blue',
+               alpha = 0.25)
+A.fill_between(train_sizes,
+               np.mean(test_scores, axis=1) - np.std(test_scores, axis=1),
+               np.mean(test_scores, axis=1) + np.std(test_scores, axis=1),
+               color ='green',
+               alpha = 0.25)
+B = LC_fig.add_subplot(1,2,2)
+B.plot(param_range, np.mean(train_scores_val, axis=1), 'o-', color = 'blue')
+B.plot(param_range, np.mean(val_scores_val, axis=1), 'o-', color = 'green')
+B.fill_between(param_range,
+               np.mean(train_scores_val, axis=1) - np.std(train_scores_val, axis=1),
+               np.mean(train_scores_val, axis=1) + np.std(train_scores_val, axis=1),
+               color ='blue',
+               alpha = 0.25)
+B.fill_between(param_range,
+               np.mean(val_scores_val, axis=1) - np.std(val_scores_val, axis=1),
+               np.mean(val_scores_val, axis=1) + np.std(val_scores_val, axis=1),
+               color ='green',
+               alpha = 0.25)
+plt.show()

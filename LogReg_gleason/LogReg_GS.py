@@ -1,5 +1,5 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import GridSearchCV
+
 
 logisticDF = pd.DataFrame({'lda_decision': lda.decision_function(X_k),
                            'gleason': gleason,
