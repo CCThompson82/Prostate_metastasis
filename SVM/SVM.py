@@ -2,7 +2,7 @@ from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
 from sklearn.feature_selection import RFECV
 
-estimator = SVC(C=1,
+svm_clf = SVC(C= 0.1,  #data is noisy and will not be linear separable.
           kernel='linear',
           probability=True,
           tol=0.001,
@@ -13,58 +13,74 @@ estimator = SVC(C=1,
           max_iter=-1,
           random_state= 123)
 
-clf_svm_rf = RFECV(estimator,
-                   step=1,
-                   cv=4,
-                   scoring=fbeta_scorer)
+from itertools import permutations
 
-clf_svm_rf.fit(X_k40.loc[X_train.index,:], y_train)
+def wrapper(clf, X, y, max_features, show_max, steps_down, gain_tolerance) :
+    feature_remaining = list(X.columns.values)
+    row_list = []
+    k_features = []
+    test_features = []
+    for it in range(0,max_features,1) :
+        if steps_down == 0 :
+            break
+        else :
+            feature_scores_dict = {}
+            feature_sd_dict = {}
+            for feature in feature_remaining :
+                test_features.append(feature)
+                clf.fit(X.loc[:,test_features], y)
+                cv_scores = cross_val_score(clf, X.loc[:,test_features], y, scoring = fbeta_scorer, cv = 4)
+                feature_scores_dict.update({tuple(test_features) : np.mean(cv_scores)})
+                feature_sd_dict.update({tuple(test_features) : np.std(cv_scores)})
+                test_features.remove(test_features[-1])
+            k_features.append(max(feature_scores_dict.keys(), key=(lambda k: feature_scores_dict[k]))[-1])
+            test_features.append(max(feature_scores_dict.keys(), key=(lambda k: feature_scores_dict[k]))[-1])
+            feature_remaining.remove(max(feature_scores_dict.keys(), key=(lambda k: feature_scores_dict[k]))[-1])
+            dict1 = {'n_features': len(k_features),
+                     'F2_score': feature_scores_dict.get(tuple(k_features)),
+                     'F2_SD' : feature_sd_dict.get(tuple(k_features)),
+                     'Features': list(k_features)}
+            row_list.append(dict1)
+            print('Iteration: ',it+1,' complete!')
 
-X_svm = pd.DataFrame(clf_svm_rf.transform(X_k40), index= X_k40.index, columns = X_k40.columns[clf_svm_rf.support_])
+            """Does F2 increase?"""
+            #print(row_list[-1])
+            if it > 0 :
+                gain = row_list[-1].get('F2_score') - row_list[-2].get('F2_score')
+                print("F2 Score Gain:",gain)
+                if gain < gain_tolerance :
+                    steps_down -= 1
 
-train_sizes, train_scores, test_scores = learning_curve(estimator,
-                                                        X_svm.loc[X_train.index, :],
-                                                        y_train,
-                                                        train_sizes = [0.33, 0.66, 1],
-                                                        cv = 4,
-                                                        scoring=fbeta_scorer,
-                                                        exploit_incremental_learning= False)
-param_range = [1, 0.8, 0.5, 0.25, 0.1]
-train_scores_val, val_scores_val = validation_curve(estimator,
-                                                    X_svm.loc[X_train.index, :],
-                                                    y_train,
-                                                    param_name = "C",
-                                                    param_range= param_range,
-                                                    cv=4,
-                                                    scoring = fbeta_scorer,
-                                                    n_jobs=1)
+    """Benchmark for all features used"""
+    if show_max == True :
+        clf.fit(X,y)
+        cv_scores = cross_val_score(clf, X, y, scoring = fbeta_scorer, cv = 5)
+        dict1 = {'n_features': X.shape[1],
+                 'F2_score': np.mean(cv_scores),
+                 'F2_SD' : np.std(cv_scores),
+                 'Features': ["ALL"]}
+        row_list.append(dict1)
+    DF = pd.DataFrame(row_list, columns=['n_features','F2_score','F2_SD','Features'])
+    #print(DF.iloc[:,0:3])
+
+    """Make Complexity Plot"""
+    plt.figure(figsize=(10,10))
+    plt.scatter(DF['n_features'], DF['F2_score'], color='black')
+    plt.errorbar(DF['n_features'], DF['F2_score'], yerr=DF['F2_SD'])
+    plt.xlabel('Number of features')
+    plt.xlim(0, np.max(DF['n_features'])+1)
+    plt.ylabel('Mean F2 Score (CV=5)')
+    plt.title('Complexity Plot')
+    plt.show()
+    return(k_features, DF)
 
 
-LC_fig = plt.figure(figsize=(15,5))
-A = LC_fig.add_subplot(1,2,1)
-A.plot(train_sizes, np.mean(train_scores, axis=1), 'o-', color = 'blue')
-A.plot(train_sizes, np.mean(test_scores, axis=1), 'o-', color = 'green')
-A.fill_between(train_sizes,
-               np.mean(train_scores, axis=1) - np.std(train_scores, axis=1),
-               np.mean(train_scores, axis=1) + np.std(train_scores, axis=1),
-               color ='blue',
-               alpha = 0.25)
-A.fill_between(train_sizes,
-               np.mean(test_scores, axis=1) - np.std(test_scores, axis=1),
-               np.mean(test_scores, axis=1) + np.std(test_scores, axis=1),
-               color ='green',
-               alpha = 0.25)
-B = LC_fig.add_subplot(1,2,2)
-B.plot(param_range, np.mean(train_scores_val, axis=1), 'o-', color = 'blue')
-B.plot(param_range, np.mean(val_scores_val, axis=1), 'o-', color = 'green')
-B.fill_between(param_range,
-               np.mean(train_scores_val, axis=1) - np.std(train_scores_val, axis=1),
-               np.mean(train_scores_val, axis=1) + np.std(train_scores_val, axis=1),
-               color ='blue',
-               alpha = 0.25)
-B.fill_between(param_range,
-               np.mean(val_scores_val, axis=1) - np.std(val_scores_val, axis=1),
-               np.mean(val_scores_val, axis=1) + np.std(val_scores_val, axis=1),
-               color ='green',
-               alpha = 0.25)
-plt.show()
+k_features, DF = wrapper(svm_clf,
+                         X_k.loc[X_train.index],
+                         y_train,
+                         max_features= 5,
+                         show_max= False,
+                         steps_down=3,
+                         gain_tolerance = 0.0)
+
+print(DF.head())
