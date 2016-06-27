@@ -1,12 +1,12 @@
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.model_selection import learning_curve, validation_curve
 estimator = RandomForestClassifier(n_estimators=300,
                                    criterion='gini',
                                    max_depth=1,
-                                   min_samples_split=30,
-                                   min_samples_leaf=10,
+                                   min_samples_split=100,
+                                   min_samples_leaf=50,
                                    min_weight_fraction_leaf=0.0,
-                                   max_features= 'auto',
+                                   max_features= 5,
                                    max_leaf_nodes=None,
                                    bootstrap=True,
                                    oob_score=False,
