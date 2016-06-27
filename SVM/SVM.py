@@ -2,7 +2,7 @@ from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
 from sklearn.feature_selection import RFECV
 
-estimator = SVC(C=.1,
+estimator = SVC(C=.05,
           kernel='linear',
           probability=True,
           tol=0.001,
@@ -29,7 +29,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [0.5, .2,.15,.1,.05, 0.01]
+param_range = [0.5, .2,.15,.1,.05, 0.01, 1e-3]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_svm.loc[X_train.index, :],
                                                     y_train,

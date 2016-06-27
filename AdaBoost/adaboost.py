@@ -9,17 +9,17 @@ from sklearn.model_selection import learning_curve, validation_curve
 base_est = DecisionTreeClassifier(criterion='gini',
                                  splitter='best',
                                  max_depth=1,
-                                 min_samples_split=30,
-                                 min_samples_leaf=10,
+                                 min_samples_split=100,
+                                 min_samples_leaf=100,
                                  min_weight_fraction_leaf=0.0,
-                                 max_features=None,
+                                 max_features= 10,
                                  random_state=123,
                                  max_leaf_nodes=None,
                                  class_weight='balanced',
                                  presort=False)
 
 estimator = AdaBoostClassifier(base_estimator=base_est,
-                         n_estimators=25,
+                         n_estimators=100,
                          learning_rate= 1,
                          algorithm='SAMME.R',
                          random_state=123)
@@ -32,7 +32,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [5, 10, 25, 100]
+param_range = [5, 10, 25, 100, 200]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_k.loc[X_train.index, :],
                                                     y_train,

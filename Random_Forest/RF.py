@@ -1,6 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import learning_curve, validation_curve
-estimator = RandomForestClassifier(n_estimators=300,
+estimator = RandomForestClassifier(n_estimators=250,
                                    criterion='gini',
                                    max_depth=1,
                                    min_samples_split=100,
