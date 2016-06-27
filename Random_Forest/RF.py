@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 estimator = RandomForestClassifier(n_estimators=300,
                                    criterion='gini',
-                                   max_depth=None,
+                                   max_depth=1,
                                    min_samples_split=30,
                                    min_samples_leaf=10,
                                    min_weight_fraction_leaf=0.0,
@@ -24,7 +24,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [10, 50, 100, 250]
+param_range = [10, 50, 100, 250, 500, 1000]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_k.loc[X_train.index, :],
                                                     y_train,

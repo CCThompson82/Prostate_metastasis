@@ -2,7 +2,7 @@ from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
 from sklearn.feature_selection import RFECV
 
-estimator = SVC(C=1,
+estimator = SVC(C=.1,
           kernel='linear',
           probability=True,
           tol=0.001,
@@ -18,9 +18,9 @@ clf_svm_rf = RFECV(estimator,
                    cv=4,
                    scoring=fbeta_scorer)
 
-clf_svm_rf.fit(X_k40.loc[X_train.index,:], y_train)
+clf_svm_rf.fit(X_kk.loc[X_train.index,:], y_train)
 
-X_svm = pd.DataFrame(clf_svm_rf.transform(X_k40), index= X_k40.index, columns = X_k40.columns[clf_svm_rf.support_])
+X_svm = pd.DataFrame(clf_svm_rf.transform(X_kk), index= X_kk.index, columns = X_kk.columns[clf_svm_rf.support_])
 
 train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         X_svm.loc[X_train.index, :],
@@ -29,7 +29,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [1, 0.8, 0.5, 0.25, 0.1]
+param_range = [0.5, .2,.15,.1,.05, 0.01]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_svm.loc[X_train.index, :],
                                                     y_train,
