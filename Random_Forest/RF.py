@@ -1,12 +1,12 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import learning_curve, validation_curve
-estimator = RandomForestClassifier(n_estimators=250,
-                                   criterion='gini',
-                                   max_depth=1,
-                                   min_samples_split=100,
-                                   min_samples_leaf=50,
+
+estimator = RandomForestClassifier(n_estimators=300,
+                                   criterion='entropy',
+                                   max_depth=3,
+                                   min_samples_split=40,
+                                   min_samples_leaf=5,
                                    min_weight_fraction_leaf=0.0,
-                                   max_features= 5,
+                                   max_features= 0.05,
                                    max_leaf_nodes=None,
                                    bootstrap=True,
                                    oob_score=False,
@@ -24,7 +24,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [10, 50, 100, 250, 500, 1000]
+param_range = [10, 50, 100, 250, 500]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_k.loc[X_train.index, :],
                                                     y_train,
@@ -62,4 +62,6 @@ B.fill_between(param_range,
                np.mean(val_scores_val, axis=1) + np.std(val_scores_val, axis=1),
                color ='green',
                alpha = 0.25)
+A.set_ylim(0,1)
+B.set_ylim(0,1)
 plt.show()
