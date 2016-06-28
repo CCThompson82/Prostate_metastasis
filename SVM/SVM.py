@@ -16,7 +16,7 @@ estimator = SVC(C=.05,
 clf_svm_rf = RFECV(estimator,
                    step=1,
                    cv=4,
-                   scoring=fbeta_scorer)
+                   scoring=MCC_scorer)
 
 clf_svm_rf.fit(X_kk.loc[X_train.index,:], y_train)
 
@@ -29,7 +29,7 @@ train_sizes, train_scores, test_scores = learning_curve(estimator,
                                                         cv = 4,
                                                         scoring=fbeta_scorer,
                                                         exploit_incremental_learning= False)
-param_range = [0.5, .2,.15,.1,.05, 0.01, 1e-3]
+param_range = [5e-1, 5e-2,5e-3,5e-4,5e-5, 5e-6]
 train_scores_val, val_scores_val = validation_curve(estimator,
                                                     X_svm.loc[X_train.index, :],
                                                     y_train,
@@ -67,4 +67,7 @@ B.fill_between(param_range,
                np.mean(val_scores_val, axis=1) + np.std(val_scores_val, axis=1),
                color ='green',
                alpha = 0.25)
+A.set_ylim(0,1)
+B.set_ylim(0,1)
+B.set_xscale('log')
 plt.show()
