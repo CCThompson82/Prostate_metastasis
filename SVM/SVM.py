@@ -2,7 +2,7 @@ from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
 from sklearn.feature_selection import RFECV
 
-svm_clf = SVC(C= 0.1,  #data is noisy and will not be linear separable.
+svm_clf = SVC(C= 0.05,  #data is noisy and will not be linear separable.
           kernel='linear',
           probability=True,
           tol=0.001,

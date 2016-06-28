@@ -1,25 +1,25 @@
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.linear_model import LogisticRegression
+
 from sklearn.svm import SVC
-from sklearn.linear_model import SGDClassifier
+
 from sklearn.model_selection import learning_curve, validation_curve
 
 base_est = DecisionTreeClassifier(criterion='gini',
                                  splitter='best',
-                                 max_depth=1,
-                                 min_samples_split=30,
-                                 min_samples_leaf=10,
+                                 max_depth=2,
+                                 min_samples_split=100,
+                                 min_samples_leaf=40,
                                  min_weight_fraction_leaf=0.0,
-                                 max_features=None,
+                                 max_features=0.025,
                                  random_state=123,
                                  max_leaf_nodes=None,
                                  class_weight='balanced',
                                  presort=False)
 
 estimator = AdaBoostClassifier(base_estimator=base_est,
-                         n_estimators=25,
+                         n_estimators=250,
                          learning_rate= 1,
                          algorithm='SAMME.R',
                          random_state=123)
