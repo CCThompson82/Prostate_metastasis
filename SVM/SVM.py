@@ -1,8 +1,7 @@
 from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
-from sklearn.feature_selection import RFECV
 
-estimator = SVC(C=.05,
+estimator = SVC(C=0.05,
           kernel='linear',
           probability=True,
           tol=0.001,
@@ -16,7 +15,7 @@ estimator = SVC(C=.05,
 clf_svm_rf = RFECV(estimator,
                    step=1,
                    cv=4,
-                   scoring=MCC_scorer)
+                   scoring=fbeta_scorer)
 
 clf_svm_rf.fit(X_kk.loc[X_train.index,:], y_train)
 
