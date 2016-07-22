@@ -72,7 +72,7 @@ metastasis.
 ## Metrics
 As this problem has been defined, a performance metric for classification is
 required.  The standard classification metric is the accuracy score, i.e. the
-percentage of observations which were correctly classified.  However everal
+percentage of observations which were correctly classified.  However several
 aspects of this project which make accuracy unsuitable.  First, metastasis is a
 somewhat rare event, which has lead to an unbalanced label prevalence within the
 data set. The use of accuracy to score a model for unbalanced data can be
@@ -114,3 +114,66 @@ an F2 score was implemented (i.e. $F_\beta$, with $\beta := 2$) as the main
 performance metric.  To ensure no model was 'gaming' the performance measure, I
 chose to include the MCC value in each assessment as a control for balanced
 accuracy.
+
+# Analysis
+## Data Exploration
+'The Cancer Genome Atlas'(TCGA) is a research consortium set up to curate
+clinical data from thousands of patient participants, covering an array of
+cancer types.   Provided data includes basic clinical information as well as DNA
+and RNA sequencing of cancer biopsies. These data sets are updated frequently as
+new information becomes available.  Thus each data download represents a
+snapshot in an evolving data set.
+
+While detailed genomic and RNA sequence data is control-accessed, pre-processed
+gene count data is publicly available.  Data can be downloaded via the
+consortium  portal or acquired into dataframe format using a package in the R
+language.  If the script, 'Dataset_setup/tcga_dataset_setup.R' is run in R, then
+two feather files (which can be read by many languages, including python) will
+be stored in the working directory for the clinical, and gene count datasets,
+respectively.  The versions stored in the submission repository are current at
+the time of submission.
+
+The clinical data set contains 22 features, of which several are irrelevant
+(e.g. all prostate cancer patients are 'male').  Features with a single
+categorical class were removed in the 'Dataset_cleanup/cleanup_clinical.py'
+script.  Then, in order to mimic the knowledge state a doctor/patient would
+encounter upon presentation, features were limited to only those that would be
+known prior to Gleason score analysis.  This includes the age of the patient,
+and the patient's PSA (prostate secreted antigen) test score.  The outcome
+variable for this project is contained in the clinical data set, which is
+'pathologyNstage'.  This label is composed of 'n0' or 'n1', representing local
+versus metastatic cancer, respectively.  Unfortunately of the 499 patients
+enrolled in the study, 73 records did not include the metastasis state.
+
+The primary data set for this project is the gene count matrix.  This data set
+provides a value for gene expression level for every known human gene.  The same
+patient index links the clinical data set to the  gene count data set, of which
+497 are common among the two.  As the expression values for each patient are not
+normalized, an important step prior to analysis was to transform each value to
+the transcript count per million reads (TPM).  This transformation normalizes
+such that the expression levels for each patient are now comparable.  A test was
+run after transformation to ensure that each patient profile totaled 1 million
+reads.  The next section will serve to describe the clinical data and provide a
+benchmark prognosis rate using information available to a doctor at
+presentation.   
+
+## Exploratory Visualization
+Frequency of metastasis is a relatively rare occurrence for prostate
+adenocarcinoma, a trend that is also reflected in the TCGA cohort data,
+as shown in Figure 1.
+
+![Figure 1](/Label_count.png)
+
+**Figure 1** - Frequency of Metastasis in the TCGA Prostate adenocarcinoma
+cohort.
+
+When grouped by Gleason score, it is also evident that
+metastasis rates increase as the severity of cancer increases (Figure 2).  This
+is  intuitive, yet clearly not sufficient to determine whether a specific
+cancer, regardless of Gleason score, will metastasize or not.  To illustrate,
+cancers that have been rated at a Gleason score of '9' are still more likely to
+belong to the 'n0' class than the metastasis class.
+
+![Figure 2](/Gleason_hist.png)
+
+**Figure 2** - Frequency of Metastasis state grouped by Gleason score.
