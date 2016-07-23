@@ -177,3 +177,18 @@ belong to the 'n0' class than the metastasis class.
 ![Figure 2](/Gleason_hist.png)
 
 **Figure 2** - Frequency of Metastasis state grouped by Gleason score.
+
+
+## Algorithms and Techniques
+The data set to be used in this project is both wide, and unbalanced - meaning
+that in its original form, the data set contains many more features than
+observations, and that the class labels for each observation exist in an
+unbalanced ratio.  As such, the types of algorithms that can be implemented
+successfully must reflect this.  Also important towards a successful outcome,
+will be feature reduction exercise. Finding a signal, if any, within the noise
+of a wide data set will be paramount to the success of this project.
+
+There are a variety of techniques for feature reduction, including the filtering
+features that exhibit some degree of utility in label separation individually,
+or wrapping functions that recursively test combinations of features for
+performance in a given base model.  

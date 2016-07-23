@@ -1,7 +1,7 @@
 from sklearn.feature_selection import RFECV
 from sklearn.svm import SVC
 
-estimator = SVC(C=0.05,
+estimator = SVC(C=0.005,
           kernel='linear',
           probability=True,
           tol=0.001,
