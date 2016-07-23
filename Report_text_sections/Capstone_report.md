@@ -162,7 +162,7 @@ Frequency of metastasis is a relatively rare occurrence for prostate
 adenocarcinoma, a trend that is also reflected in the TCGA cohort data,
 as shown in Figure 1.
 
-![Figure 1](/Label_count.png)
+![Figure 1](/Report_text_sections/Label_count.png)
 
 **Figure 1** - Frequency of Metastasis in the TCGA Prostate adenocarcinoma
 cohort.
@@ -174,7 +174,7 @@ cancer, regardless of Gleason score, will metastasize or not.  To illustrate,
 cancers that have been rated at a Gleason score of '9' are still more likely to
 belong to the 'n0' class than the metastasis class.
 
-![Figure 2](/Gleason_hist.png)
+![Figure 2](/Report_text_sections/Gleason_hist.png)
 
 **Figure 2** - Frequency of Metastasis state grouped by Gleason score.
 
@@ -188,7 +188,5 @@ successfully must reflect this.  Also important towards a successful outcome,
 will be feature reduction exercise. Finding a signal, if any, within the noise
 of a wide data set will be paramount to the success of this project.
 
-There are a variety of techniques for feature reduction, including the filtering
-features that exhibit some degree of utility in label separation individually,
-or wrapping functions that recursively test combinations of features for
-performance in a given base model.  
+The first step in feature reduction will be a filtering step, using the SelectKBest, a filtering function that utilizes a scoring function to filter a data set to the features that exhibit statistical difference when broken into class (metastasis state in this case).  This is a useful first step to remove all gene expression data where little difference in expression is observed between the two classes, as well as genes which are not expressed in either class, etc.  By treating each gene expression
+feature individually, this 
